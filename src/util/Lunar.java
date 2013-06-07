@@ -8,6 +8,24 @@ import java.util.Date;
 /**
  * @author ydcun
  *根据java日历对象转换成农历
+ *
+ *二进制形式 xxxx xxxx xxxx xxxx xxxx 
+ *20-17 16-12 12-9 8-5 4-1
+ *1-4: 表示当年有无闰年，有的话，为闰月的月份，没有的话，为0。
+ *5-16：为除了闰月外的正常月份是大月还是小月，1为30天，0为29天。
+ *           注意：从1月到12月对应的是第16位到第5位。
+ *           17-20： 表示闰月是大月还是小月，仅当存在闰月的情况下有意义。
+ * 举个例子：
+ * 1980年的数据是： 0x095b0
+ * 二进制：0000    1001 0101 1011 0000 
+ * 表示1980年没有闰月，从1月到12月的天数依次为：30、29、29、30、29、30、29、30、30、29、30、30。
+ * 1982年的数据是：0x0a974
+ * 0000 1010 1010 0111 0100
+ * 表示1982年的4月为闰月，即有第二个4月，且是闰小月。
+ * 从1月到13月的天数依次为：30、29、30、29、29(闰月)、30、29、30、29、29、30、30、30。
+ * 
+ * 2051
+ * 
  */
 public class Lunar {
     private int year;
@@ -39,7 +57,13 @@ public class Lunar {
             0x0ad50, 0x05b52, 0x04b60, 0x0a6e6, 0x0a4e0, 0x0d260, 0x0ea65,
             0x0d530, 0x05aa0, 0x076a3, 0x096d0, 0x04bd7, 0x04ad0, 0x0a4d0,
             0x1d0b6, 0x0d250, 0x0d520, 0x0dd45, 0x0b5a0, 0x056d0, 0x055b2,
-            0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0 };
+            0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0,
+            0x09374B, 0x049f8, 0x04970, 0x064b0, 0x068a6, 0x0ea5f, 0x06b20, 0x0a6c4, 0x0aaef, 0x092e0, // 2051 ~ 2060     
+//            0x0d2e3, 0x0c960, 0x0d557, 0x0d4a0, 0x0da50, 0x05d55, 0x056a0, 0x0a6d0, 0x55d4, 0x052d0, // 2061 ~ 2070     
+//            0x0a9b8, 0x0a950, 0x0b4a0, 0x0b6a6, 0x0ad50, 0x055a0, 0x0aba4, 0x0a5b0, 0x052b0, 0x0b273, // 2071 ~ 2080     
+//            0x06930, 0x07337, 0x06aa0, 0x0ad50, 0x04b55, 0x04b6f, 0x0a570, 0x054e4, 0x0d260, 0x0e968, // 2081 ~ 2090     
+//            0x0d520, 0x0daa0, 0x06aa6, 0x056df, 0x04ae0, 0x0a9d4, 0x0a4d0, 0x0d150, 0x0f252, 0x0d520  // 2091 ~ 2100  
+    };
 
     // ====== 传回农历 y年的总天数
     final private static int yearDays(int y) {
@@ -64,6 +88,7 @@ public class Lunar {
 
     // ====== 传回农历 y年闰哪个月 1-12 , 没闰传回 0
     final private static int leapMonth(int y) {
+    	System.out.println(y);
         return (int) (lunarInfo[y - 1900] & 0xf);
     }
 
@@ -206,7 +231,7 @@ public class Lunar {
     
     public static void main(String[] args) throws ParseException {
         Calendar today = Calendar.getInstance();
-        today.setTime(chineseDateFormat.parse("2013年06月08日"));
+        today.setTime(chineseDateFormat.parse("2013年3月11日"));
         Lunar lunar = new Lunar(today);
         System.out.println("北京时间：" + chineseDateFormat.format(today.getTime())
                 + "　农历" + lunar);

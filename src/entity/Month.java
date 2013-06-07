@@ -7,11 +7,11 @@ public class Month {
 	/**
 	 * 这个月第一天是星期几
 	 */
-	private String firstWeek;
+	private int firstWeek;
 	/**
 	 * 本月的所有DAY
 	 */
-	private List<Day> listDay = new ArrayList<Day>();
+	private List<Day> listDay;
 	/**
 	 * 这个月有多少天
 	 */
@@ -26,7 +26,7 @@ public class Month {
 	 * 获取这个月第一天是星期几
 	 * @return firstWeek 这个月第一天是星期几  
 	 */
-	public String getFirstWeek() {
+	public int getFirstWeek() {
 		return firstWeek;
 	}
 
@@ -34,7 +34,7 @@ public class Month {
 	 * 设置这个月第一天是星期几  
 	 * @param firstWeek 这个月第一天是星期几  
 	 */
-	public void setFirstWeek(String firstWeek) {
+	public void setFirstWeek(int firstWeek) {
 		this.firstWeek = firstWeek;
 	}
 
